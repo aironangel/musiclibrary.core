@@ -1,0 +1,11 @@
+﻿@Model IEnumerable<MusicLibrary.Core.Model.Link> 
+    <h2>Music Library</h2>
+
+    <ul>
+        @foreach (var link in Model)
+        {
+            <li><a href="@link.Url">@link.Title</a></li>
+        }
+    </ul>
+
+

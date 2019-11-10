@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MusicLibrary.Core.Services;
 
 namespace MusicLibrary.Core
 {
@@ -33,6 +34,7 @@ namespace MusicLibrary.Core
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddTransient<ILinkRepository, InMemoryLinkRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,7 +54,14 @@ namespace MusicLibrary.Core
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
-            app.UseMvc();
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute
+                (
+                    name: "default",
+                    template: "{controller=Home}" ///{action=Index}/{id?}*
+                );
+            });
         }
     }
 }

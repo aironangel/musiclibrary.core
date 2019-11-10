@@ -7,6 +7,8 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Console;
+using Microsoft.Extensions.Logging.Debug;
 
 namespace MusicLibrary.Core
 {
@@ -19,6 +21,12 @@ namespace MusicLibrary.Core
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+                .UseStartup<Startup>()
+            .ConfigureLogging((hostingContext, logging) => 
+            {
+                logging.AddFilter<ConsoleLoggerProvider>("MusicLibrary.Core", LogLevel.Warning);
+                logging.AddFilter<DebugLoggerProvider>("MusicLibrary.Core", LogLevel.Debug);
+
+            });
     }
 }
